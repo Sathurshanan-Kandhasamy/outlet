@@ -7,6 +7,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './assets/styles/index.css';
 import App from './App';
 import Home from './pages/Home';
 import reportWebVitals from './reportWebVitals';
