@@ -10,7 +10,7 @@ const products = [
     price: 49.99,
     countInStock: 65,
     rating: 4.4,
-    numReviews: 81,
+    numberOfReviews: 81,
   },
 ];
 

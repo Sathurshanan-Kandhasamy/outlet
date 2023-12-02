@@ -1,5 +1,5 @@
 import express from 'express';
-import 'dotenv/config'
+import 'dotenv/config';
 import products from './data/products.js';
 const PORT = process.env.PORT;
 
