@@ -20,7 +20,8 @@ ROUTER.get(
     if (PRODUCT) {
       response.json(PRODUCT);
     } else {
-      response.status(404).json({ message: 'Product not found.' });
+      response.status(404);
+      throw new Error('Resource not found.');
     }
   })
 );
