@@ -1,15 +1,12 @@
 import express from 'express';
 import 'dotenv/config';
-import connectToDatabase from './config/database.js';
-import {
-  NOT_FOUND as notFound,
-  ERROR_HANDLER as errorHandler,
-} from './middleware/error.js';
-import productRoutes from './routes/products.js';
+import CONNECT_TO_DATABASE from './config/database.js';
+import { NOT_FOUND, ERROR_HANDLER } from './middleware/error.js';
+import PRODUCT_ROUTES from './routes/product.js';
 const PORT = process.env.PORT;
 
 // Connects to MongoDB database.
-connectToDatabase();
+CONNECT_TO_DATABASE();
 
 const APP = express();
 
@@ -17,9 +14,9 @@ APP.get('/', (request, response) => {
   response.send('API is running.');
 });
 
-APP.use('/api/products', productRoutes);
+APP.use('/api/products', PRODUCT_ROUTES);
 
-APP.use(notFound);
-APP.use(errorHandler);
+APP.use(NOT_FOUND);
+APP.use(ERROR_HANDLER);
 
 APP.listen(PORT, () => console.log(`Server is running on port ${PORT}.`));

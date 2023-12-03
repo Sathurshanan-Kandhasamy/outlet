@@ -2,22 +2,22 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 import users from './data/users.js';
 import products from './data/products.js';
-import User from './models/user.js';
-import Product from './models/product.js';
-import Order from './models/order.js';
-import connectToDatabase from './config/database.js';
+import USER from './models/user.js';
+import PRODUCT from './models/product.js';
+import ORDER from './models/order.js';
+import CONNECT_TO_DATABASE from './config/database.js';
 
 // Connects to MongoDB database.
-connectToDatabase();
+CONNECT_TO_DATABASE();
 
 // Inserts data in database.
 const IMPORT_DATA = async () => {
   try {
-    await Order.deleteMany();
-    await Product.deleteMany();
-    await User.deleteMany();
+    await ORDER.deleteMany();
+    await PRODUCT.deleteMany();
+    await USER.deleteMany();
 
-    const CREATED_USERS = await user.insertMany(users);
+    const CREATED_USERS = await USER.insertMany(users);
     const ADMIN_USER = CREATED_USERS[0]._id;
 
     const SAMPLE_PRODUCTS = products.map((product) => {
@@ -26,7 +26,7 @@ const IMPORT_DATA = async () => {
         user: ADMIN_USER,
       };
     });
-    await Product.insertMany(SAMPLE_PRODUCTS);
+    await PRODUCT.insertMany(SAMPLE_PRODUCTS);
 
     console.log('Data imported.');
     process.exit();
@@ -39,9 +39,9 @@ const IMPORT_DATA = async () => {
 // Deletes data in database.
 const DESTROY_DATA = async () => {
   try {
-    await Order.deleteMany();
-    await Product.deleteMany();
-    await User.deleteMany();
+    await ORDER.deleteMany();
+    await PRODUCT.deleteMany();
+    await USER.deleteMany();
 
     console.log('Data destroyed.');
     process.exit();
