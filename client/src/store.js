@@ -1,12 +1,12 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { API_SLICE } from './slices/api';
+import { configureStore } from '@reduxjs/toolkit';
+import { API } from './slices/api';
 
 const STORE = configureStore({
   reducer: {
-    [API_SLICE.reducerPath]: API_SLICE.reducer,
+    [API.reducerPath]: API.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(API_SLICE.middleware),
+    getDefaultMiddleware().concat(API.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 
