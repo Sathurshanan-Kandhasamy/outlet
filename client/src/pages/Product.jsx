@@ -1,49 +1,71 @@
-import { useParams, Link } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
+import { useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import {
+  Form,
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+} from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { useGetSingleProductQuery } from '../slices/productsApi';
+import { ADD_TO_CART } from '../slices/cart';
 
 const Product = () => {
-  const { id: productId } = useParams();
+  const { id: PRODUCT_ID } = useParams();
+
+  const DISPATCH = useDispatch();
+  const NAVIGATE = useNavigate();
+
+  const [QUANTITY, SET_QUANTITY] = useState(1);
+
   const {
-    data: product,
-    isLoading,
-    error,
-  } = useGetSingleProductQuery(productId);
+    data: PRODUCT,
+    isLoading: IS_LOADING,
+    error: ERROR,
+  } = useGetSingleProductQuery(PRODUCT_ID);
+
+  const ADD_TO_CART_HANDLER = () => {
+    DISPATCH(ADD_TO_CART({ ...PRODUCT, qty: QUANTITY }));
+    NAVIGATE('/cart');
+  };
 
   return (
     <>
       <Link className="btn btn-light my-3" to="/">
         Go Back
       </Link>
-      {isLoading ? (
+      {IS_LOADING ? (
         <Loader />
-      ) : error ? (
+      ) : ERROR ? (
         <Message variant="danger">
-          {error?.data?.message || error.error}
+          {ERROR?.data?.message || ERROR.error}
         </Message>
       ) : (
         <>
           <Row>
             <Col md={5}>
-              <Image src={product.image} alt={product.name} fluid />
+              <Image src={PRODUCT.image} alt={PRODUCT.name} fluid />
             </Col>
             <Col md={4}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                  <h3>{product.name}</h3>
+                  <h3>{PRODUCT.name}</h3>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Rating
-                    value={product.rating}
-                    text={`${product.numberOfReviews} reviews`}
+                    value={PRODUCT.rating}
+                    text={`${PRODUCT.numberOfReviews} reviews`}
                   />
                 </ListGroup.Item>
-                <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+                <ListGroup.Item>Price: ${PRODUCT.price}</ListGroup.Item>
                 <ListGroup.Item>
-                  Description: {product.description}
+                  Description: {PRODUCT.description}
                 </ListGroup.Item>
               </ListGroup>
             </Col>
@@ -54,7 +76,7 @@ const Product = () => {
                     <Row>
                       <Col>Price: </Col>
                       <Col>
-                        <strong>${product.price}</strong>
+                        <strong>${PRODUCT.price}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -63,18 +85,43 @@ const Product = () => {
                       <Col>Status: </Col>
                       <Col>
                         <strong>
-                          {product.countInStock > 0
+                          {PRODUCT.countInStock > 0
                             ? 'In Stock'
                             : 'Out Of Stock'}
                         </strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
+                  {PRODUCT.countInStock > 0 && (
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>Qty</Col>
+                        <Col>
+                          <Form.Control
+                            as="select"
+                            value={QUANTITY}
+                            onChange={(event) =>
+                              SET_QUANTITY(Number(event.target.value))
+                            }
+                          >
+                            {[...Array(PRODUCT.countInStock).keys()].map(
+                              (number) => (
+                                <option key={number + 1} value={number + 1}>
+                                  {number + 1}
+                                </option>
+                              )
+                            )}
+                          </Form.Control>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  )}
                   <ListGroup.Item>
                     <Button
                       className="btn-block"
                       type="button"
-                      disabled={product.countInStock === 0}
+                      disabled={PRODUCT.countInStock === 0}
+                      onClick={ADD_TO_CART_HANDLER}
                     >
                       Add To Cart
                     </Button>

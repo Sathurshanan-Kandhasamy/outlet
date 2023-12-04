@@ -14,13 +14,13 @@ const CART = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const ITEM = action.payload;
-      const EXISTS_ITEM = state.cart.find((item) => item._id === ITEM._id);
-      if (EXISTS_ITEM) {
+      const EXIST_ITEM = state.cartItems.find((item) => item._id === ITEM._id);
+      if (EXIST_ITEM) {
         state.cartItems = state.cartItems.map((item) =>
-          item._id === EXISTS_ITEM._id ? ITEM : item
+          item._id === EXIST_ITEM._id ? ITEM : item
         );
       } else {
-        state.cartItems = [...state.cartItems];
+        state.cartItems = [...state.cartItems, ITEM];
       }
 
       // Calculates cart items price.
@@ -46,6 +46,6 @@ const CART = createSlice({
   },
 });
 
-export const { addToCart } = CART.actions;
+export const { addToCart: ADD_TO_CART } = CART.actions;
 
 export default CART.reducer;

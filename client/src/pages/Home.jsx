@@ -5,21 +5,25 @@ import Message from '../components/Message';
 import { useGetProductsQuery } from '../slices/productsApi';
 
 const Home = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const {
+    data: PRODUCTS,
+    isLoading: IS_LOADING,
+    error: ERROR,
+  } = useGetProductsQuery();
 
   return (
     <>
-      {isLoading ? (
+      {IS_LOADING ? (
         <Loader />
-      ) : error ? (
+      ) : ERROR ? (
         <Message variant="danger">
-          {error?.data?.message || error.error}
+          {ERROR?.data?.message || ERROR.error}
         </Message>
       ) : (
         <>
           <h1>Latest Products</h1>
           <Row>
-            {products.map((product) => (
+            {PRODUCTS.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                 <Product product={product} />
               </Col>
