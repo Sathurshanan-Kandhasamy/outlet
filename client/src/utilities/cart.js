@@ -6,7 +6,8 @@ export const UPDATE_CART = (state) => {
   // Calculates cart items price.
   state.itemsPrice = ADD_DECIMALS(
     state.cartItems.reduce(
-      (accumulator, item) => accumulator + item.price * item.qty,
+      (accumulator, currentItem) =>
+        accumulator + currentItem.price * currentItem.qty,
       0
     )
   );
