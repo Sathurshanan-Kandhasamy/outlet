@@ -9,7 +9,13 @@ const PRODUCTS_API = API.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    getSingleProduct: builder.query({
+      query: (productId) => ({
+        url: `${PRODUCTS_URL}/${productId}`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
-export const { useGetProductsQuery } = PRODUCTS_API;
+export const { useGetProductsQuery, useGetSingleProductQuery } = PRODUCTS_API;
