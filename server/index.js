@@ -11,6 +11,10 @@ CONNECT_TO_DATABASE();
 
 const APP = express();
 
+// Implements body parser middleware.
+APP.use(express.json());
+APP.use(express.urlencoded({ extended: true }));
+
 APP.get('/', (request, response) => {
   response.send('API is running.');
 });

@@ -5,7 +5,19 @@ import USER from '../models/user.js';
 // Route:        POST /api/users/login
 // Access:       Public
 const LOGIN_USER = ASYNC_HANDLER(async (request, response) => {
-  response.send('Login user.');
+  const { email: EMAIL, password: PASSWORD } = request.body;
+  const QUERY_RESULT = await USER.findOne({ email: EMAIL });
+  if (QUERY_RESULT && (await QUERY_RESULT.matchPassword(PASSWORD))) {
+    response.json({
+      _id: QUERY_RESULT._id,
+      name: QUERY_RESULT.name,
+      email: QUERY_RESULT.email,
+      isAdmin: QUERY_RESULT.isAdmin,
+    });
+  } else {
+    response.status(401);
+    throw new Error('Invalid email or password.');
+  }
 });
 
 // Description:  Registers user.
