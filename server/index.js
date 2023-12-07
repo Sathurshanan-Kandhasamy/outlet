@@ -1,5 +1,6 @@
 import express from 'express';
 import 'dotenv/config';
+import cookieParser from 'cookie-parser';
 import CONNECT_TO_DATABASE from './config/database.js';
 import { NOT_FOUND, ERROR_HANDLER } from './middleware/error.js';
 import PRODUCT_ROUTES from './routes/product.js';
@@ -14,6 +15,9 @@ const APP = express();
 // Implements body parser middleware.
 APP.use(express.json());
 APP.use(express.urlencoded({ extended: true }));
+
+// Cookie parser middleware.
+APP.use(cookieParser());
 
 APP.get('/', (request, response) => {
   response.send('API is running.');

@@ -1,11 +1,8 @@
 import express from 'express';
 const ROUTER = express.Router();
-import {
-  QUERY_PRODUCTS,
-  QUERY_SINGLE_PRODUCT,
-} from '../controllers/product.js';
+import { GET_PRODUCTS, GET_PRODUCT_BY_ID } from '../controllers/product.js';
 
-ROUTER.route('/').get(QUERY_PRODUCTS);
-ROUTER.route('/:id').get(QUERY_SINGLE_PRODUCT);
+ROUTER.route('/').get(GET_PRODUCTS);
+ROUTER.route('/:id').get(GET_PRODUCT_BY_ID);
 
 export default ROUTER;

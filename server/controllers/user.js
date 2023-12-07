@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 // Description:  Logins user and gets token.
 // Route:        POST /api/users/login
 // Access:       Public
-const LOGIN_USER = ASYNC_HANDLER(async (request, response) => {
+export const LOGIN_USER = ASYNC_HANDLER(async (request, response) => {
   const { email: EMAIL, password: PASSWORD } = request.body;
   const QUERY_RESULT = await USER.findOne({ email: EMAIL });
   if (QUERY_RESULT && (await QUERY_RESULT.matchPassword(PASSWORD))) {
@@ -38,67 +38,55 @@ const LOGIN_USER = ASYNC_HANDLER(async (request, response) => {
 // Description:  Registers user.
 // Route:        POST /api/users
 // Access:       Public
-const REGISTER_USER = ASYNC_HANDLER(async (request, response) => {
+export const REGISTER_USER = ASYNC_HANDLER(async (request, response) => {
   response.send('Register user.');
 });
 
 // Description:  Logouts user and clears cookie.
 // Route:        POST /api/users/logout
 // Access:       Private
-const LOGOUT_USER = ASYNC_HANDLER(async (request, response) => {
+export const LOGOUT_USER = ASYNC_HANDLER(async (request, response) => {
   response.send('Logout user.');
 });
 
-// Description:  Queries user profile.
+// Description:  Gets a user profile.
 // Route:        POST /api/users/profile
 // Access:       Private
-const QUERY_USER_PROFILE = ASYNC_HANDLER(async (request, response) => {
-  response.send('Query user profile.');
+export const GET_USER_PROFILE = ASYNC_HANDLER(async (request, response) => {
+  response.send('Get user profile.');
 });
 
 // Description:  Updates user profile.
 // Route:        PUT /api/users/profile
 // Access:       Private
-const UPDATE_USER_PROFILE = ASYNC_HANDLER(async (request, response) => {
+export const UPDATE_USER_PROFILE = ASYNC_HANDLER(async (request, response) => {
   response.send('Update user profile.');
 });
 
-// Description:  Queries all the users.
+// Description:  Gets all the users.
 // Route:        GET /api/users
 // Access:       Private/Admin
-const QUERY_USERS = ASYNC_HANDLER(async (request, response) => {
-  response.send('Query all the users.');
+export const GET_USERS = ASYNC_HANDLER(async (request, response) => {
+  response.send('Get all the users.');
 });
 
-// Description:  Queries user by id.
+// Description:  Gets user by id.
 // Route:        GET /api/users/:id
 // Access:       Private/Admin
-const QUERY_USER_BY_ID = ASYNC_HANDLER(async (request, response) => {
-  response.send('Query user by id.');
+export const GET_USER_BY_ID = ASYNC_HANDLER(async (request, response) => {
+  response.send('Get user by id.');
 });
 
-// Description:  Deletes user.
+// Description:  Deletes an user.
 // Route:        DELETE /api/users/:id
 // Access:       Private/Admin
-const DELETE_USER = ASYNC_HANDLER(async (request, response) => {
+export const DELETE_USER = ASYNC_HANDLER(async (request, response) => {
   response.send('Delete user.');
 });
 
-// Description:  Updates user.
+// Description:  Updates an user.
 // Route:        PUT /api/users/:id
 // Access:       Private/Admin
-const UPDATE_USER = ASYNC_HANDLER(async (request, response) => {
+export const UPDATE_USER = ASYNC_HANDLER(async (request, response) => {
   response.send('Update user.');
 });
-
-export {
-  LOGIN_USER,
-  REGISTER_USER,
-  LOGOUT_USER,
-  QUERY_USER_PROFILE,
-  UPDATE_USER_PROFILE,
-  QUERY_USERS,
-  DELETE_USER,
-  QUERY_USER_BY_ID,
-  UPDATE_USER,
-};
