@@ -46,7 +46,11 @@ export const REGISTER_USER = ASYNC_HANDLER(async (request, response) => {
 // Route:        POST /api/users/logout
 // Access:       Private
 export const LOGOUT_USER = ASYNC_HANDLER(async (request, response) => {
-  response.send('Logout user.');
+  response.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  response.status(200).json({ message: 'Logged out successfully.' });
 });
 
 // Description:  Gets a user profile.
