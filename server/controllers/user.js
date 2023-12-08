@@ -10,7 +10,7 @@ export const LOGIN_USER = ASYNC_HANDLER(async (request, response) => {
   const QUERY_RESULT = await USER.findOne({ email: EMAIL });
   if (QUERY_RESULT && (await QUERY_RESULT.matchPassword(PASSWORD))) {
     generateToken(response, QUERY_RESULT._id);
-    response.json({
+    response.status(200).json({
       _id: QUERY_RESULT._id,
       name: QUERY_RESULT.name,
       email: QUERY_RESULT.email,
@@ -68,14 +68,42 @@ export const LOGOUT_USER = ASYNC_HANDLER(async (request, response) => {
 // Route:        POST /api/users/profile
 // Access:       Private
 export const GET_USER_PROFILE = ASYNC_HANDLER(async (request, response) => {
-  response.send('Get user profile.');
+  const QUERY_RESULT = await USER.findById(request.user._id);
+  if (QUERY_RESULT) {
+    response.status(200).json({
+      _id: QUERY_RESULT._id,
+      name: QUERY_RESULT.name,
+      email: QUERY_RESULT.email,
+      isAdmin: QUERY_RESULT.isAdmin,
+    });
+  } else {
+    response.status(404);
+    throw new Error('User not found.');
+  }
 });
 
 // Description:  Updates user profile.
 // Route:        PUT /api/users/profile
 // Access:       Private
 export const UPDATE_USER_PROFILE = ASYNC_HANDLER(async (request, response) => {
-  response.send('Update user profile.');
+  const QUERY_RESULT = await USER.findById(request.user._id);
+  if (QUERY_RESULT) {
+    QUERY_RESULT.name = request.body.name || QUERY_RESULT.name;
+    QUERY_RESULT.email = request.body.email || QUERY_RESULT.email;
+    if (request.body.password) {
+      QUERY_RESULT.password = request.body.password;
+    }
+    const UPDATED_USER = await QUERY_RESULT.save();
+    response.status(200).json({
+      _id: UPDATED_USER._id,
+      name: UPDATED_USER.name,
+      email: UPDATED_USER.email,
+      isAdmin: UPDATED_USER.isAdmin,
+    });
+  } else {
+    response.status(404);
+    throw new Error('User not found.');
+  }
 });
 
 // Description:  Gets all the users.
