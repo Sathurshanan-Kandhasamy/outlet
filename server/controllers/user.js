@@ -1,6 +1,6 @@
 import ASYNC_HANDLER from '../middleware/asyncHandler.js';
 import USER from '../models/user.js';
-import jwt from 'jsonwebtoken';
+import generateToken from '../utilities/generateToken.js';
 
 // Description:  Logins user and gets token.
 // Route:        POST /api/users/login
@@ -9,20 +9,7 @@ export const LOGIN_USER = ASYNC_HANDLER(async (request, response) => {
   const { email: EMAIL, password: PASSWORD } = request.body;
   const QUERY_RESULT = await USER.findOne({ email: EMAIL });
   if (QUERY_RESULT && (await QUERY_RESULT.matchPassword(PASSWORD))) {
-    const TOKEN = jwt.sign(
-      { userId: QUERY_RESULT._id },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: '30d',
-      }
-    );
-    // Sets JWT as HTTP-Only cookie.
-    response.cookie('jwt', TOKEN, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
-      sameSite: 'strict',
-      maxAge: 30 * 24 * 60 * 60 * 1000, // Expires after 30 days.
-    });
+    generateToken(response, QUERY_RESULT._id);
     response.json({
       _id: QUERY_RESULT._id,
       name: QUERY_RESULT.name,
@@ -39,7 +26,31 @@ export const LOGIN_USER = ASYNC_HANDLER(async (request, response) => {
 // Route:        POST /api/users
 // Access:       Public
 export const REGISTER_USER = ASYNC_HANDLER(async (request, response) => {
-  response.send('Register user.');
+  const { name: NAME, email: EMAIL, password: PASSWORD } = request.body;
+
+  const USER_EXISTS = await USER.findOne({ email: EMAIL });
+  if (USER_EXISTS) {
+    response.status(400);
+    throw new Error('User already exists.');
+  }
+
+  const NEW_USER = await USER.create({
+    name: NAME,
+    email: EMAIL,
+    password: PASSWORD,
+  });
+  if (NEW_USER) {
+    generateToken(response, NEW_USER._id);
+    response.status(201).json({
+      _id: NEW_USER._id,
+      name: NEW_USER.name,
+      email: NEW_USER.email,
+      isAdmin: NEW_USER.isAdmin,
+    });
+  } else {
+    response.status(400);
+    throw new Error('Invalid user data.');
+  }
 });
 
 // Description:  Logouts user and clears cookie.
