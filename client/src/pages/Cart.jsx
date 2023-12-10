@@ -111,7 +111,7 @@ const Cart = () => {
                 type="button"
                 className="btn-block"
                 disabled={CART_ITEMS.length === 0}
-                onClick={() => CHECKOUT_HANDLER}
+                onClick={CHECKOUT_HANDLER}
               >
                 Proceed To Checkout
               </Button>

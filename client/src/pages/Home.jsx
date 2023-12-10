@@ -21,7 +21,6 @@ const Home = () => {
         </Message>
       ) : (
         <>
-          <h1>Latest Products</h1>
           <Row>
             {PRODUCTS.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
