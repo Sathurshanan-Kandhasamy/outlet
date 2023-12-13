@@ -5,6 +5,7 @@ import CONNECT_TO_DATABASE from './config/database.js';
 import { NOT_FOUND, ERROR_HANDLER } from './middleware/error.js';
 import PRODUCT_ROUTES from './routes/product.js';
 import USER_ROUTES from './routes/user.js';
+import ORDER_ROUTES from './routes/order.js';
 const PORT = process.env.PORT;
 
 // Connects to MongoDB database.
@@ -25,6 +26,7 @@ APP.get('/', (request, response) => {
 
 APP.use('/api/products', PRODUCT_ROUTES);
 APP.use('/api/users', USER_ROUTES);
+APP.use('/api/orders', ORDER_ROUTES);
 
 APP.use(NOT_FOUND);
 APP.use(ERROR_HANDLER);
