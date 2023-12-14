@@ -1,5 +1,5 @@
 import asyncHandler from '../middleware/asyncHandler.js';
-import order from '../models/order.js';
+import Order from '../models/order.js';
 
 // Description:  Create new order.
 // Route:        POST /api/orders
@@ -18,7 +18,7 @@ export const addOrderItems = asyncHandler(async (request, response) => {
     response.status(400);
     throw new Error('No order items.');
   } else {
-    const order = new ORDER({
+    const order = new Order({
       orderItems: orderItems.map((order) => ({
         ...order,
         product: order._id,
