@@ -1,34 +1,34 @@
 import express from 'express';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
-import CONNECT_TO_DATABASE from './config/database.js';
-import { NOT_FOUND, ERROR_HANDLER } from './middleware/error.js';
-import PRODUCT_ROUTES from './routes/product.js';
-import USER_ROUTES from './routes/user.js';
-import ORDER_ROUTES from './routes/order.js';
+import connectToDatabase from './config/database.js';
+import { notFound, errorHandler } from './middleware/error.js';
+import productRoutes from './routes/product.js';
+import userRoutes from './routes/user.js';
+import orderRoutes from './routes/order.js';
 const PORT = process.env.PORT;
 
 // Connects to MongoDB database.
-CONNECT_TO_DATABASE();
+connectToDatabase();
 
-const APP = express();
+const app = express();
 
 // Implements body parser middleware.
-APP.use(express.json());
-APP.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Cookie parser middleware.
-APP.use(cookieParser());
+app.use(cookieParser());
 
-APP.get('/', (request, response) => {
+app.get('/', (request, response) => {
   response.send('API is running.');
 });
 
-APP.use('/api/products', PRODUCT_ROUTES);
-APP.use('/api/users', USER_ROUTES);
-APP.use('/api/orders', ORDER_ROUTES);
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
 
-APP.use(NOT_FOUND);
-APP.use(ERROR_HANDLER);
+app.use(notFound);
+app.use(errorHandler);
 
-APP.listen(PORT, () => console.log(`Server is running on port ${PORT}.`));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}.`));

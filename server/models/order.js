@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 // Order schema.
-const ORDER_SCHEMA = mongoose.Schema(
+const orderSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -78,5 +78,5 @@ const ORDER_SCHEMA = mongoose.Schema(
   }
 );
 
-const ORDER = mongoose.model('Order', ORDER_SCHEMA);
-export default ORDER;
+const Order = mongoose.model('Order', orderSchema);
+export default Order;

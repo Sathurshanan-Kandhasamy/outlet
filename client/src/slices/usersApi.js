@@ -1,7 +1,7 @@
 import { USERS_URL } from '../constants';
-import { API } from './api';
+import { api } from './api';
 
-const USERS_API = API.injectEndpoints({
+const usersApi = api.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (data) => ({
@@ -27,4 +27,4 @@ const USERS_API = API.injectEndpoints({
 });
 
 export const { useLoginMutation, useRegisterMutation, useLogoutMutation } =
-  USERS_API;
+  usersApi;

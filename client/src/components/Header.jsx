@@ -4,22 +4,22 @@ import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/usersApi';
-import { LOGOUT } from '../slices/authentication';
+import { logout } from '../slices/authentication';
 
 const Header = () => {
-  const { cartItems: CART_ITEMS } = useSelector((state) => state.cart);
-  const { userInfo: USER_INFO } = useSelector((state) => state.authentication);
+  const { cartItems } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.authentication);
 
   const [logoutApiCall] = useLogoutMutation();
 
-  const DISPATCH = useDispatch();
-  const NAVIGATE = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const LOGOUT_HANDLER = async () => {
+  const logoutHandler = async () => {
     try {
       await logoutApiCall().unwrap();
-      DISPATCH(LOGOUT());
-      NAVIGATE('/login');
+      dispatch(logout());
+      navigate('/login');
     } catch (error) {
       console.log(error);
     }
@@ -38,9 +38,9 @@ const Header = () => {
               <LinkContainer to="/cart">
                 <Nav.Link>
                   <FaShoppingCart /> Cart
-                  {CART_ITEMS.length > 0 && (
+                  {cartItems.length > 0 && (
                     <Badge pill bg="success" style={{ marginLeft: '5px' }}>
-                      {CART_ITEMS.reduce(
+                      {cartItems.reduce(
                         (accumulator, currentItem) =>
                           accumulator + currentItem.qty,
                         0
@@ -49,12 +49,12 @@ const Header = () => {
                   )}
                 </Nav.Link>
               </LinkContainer>
-              {USER_INFO ? (
-                <NavDropdown title={USER_INFO.name} id="username">
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id="username">
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
-                  <NavDropdown.Item onClick={LOGOUT_HANDLER}>
+                  <NavDropdown.Item onClick={logoutHandler}>
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>

@@ -3,48 +3,48 @@ import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
-import { SAVE_SHIPPING_ADDRESS } from '../slices/cart';
+import { saveShippingAddress } from '../slices/cart';
 import CheckoutSteps from '../components/CheckoutSteps';
 
 const Shipping = () => {
-  const CART = useSelector((state) => state.cart);
-  const { shippingAddress: SHIPPING_ADDRESS } = CART;
+  const cart = useSelector((state) => state.cart);
+  const { shippingAddress } = cart;
 
-  const [ADDRESS, SET_ADDRESS] = useState(SHIPPING_ADDRESS?.address || '');
-  const [CITY, SET_CITY] = useState(SHIPPING_ADDRESS?.city || '');
-  const [POSTAL_CODE, SET_POSTAL_CODE] = useState(
-    SHIPPING_ADDRESS?.postalCode || ''
+  const [address, setAddress] = useState(shippingAddress?.address || '');
+  const [city, setCity] = useState(shippingAddress?.city || '');
+  const [postalCode, setPostalCode] = useState(
+    shippingAddress?.postalCode || ''
   );
-  const [COUNTRY, SET_COUNTRY] = useState(SHIPPING_ADDRESS?.country || '');
+  const [country, setCountry] = useState(shippingAddress?.country || '');
 
-  const NAVIGATE = useNavigate();
-  const DISPATCH = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const SUBMIT_HANDLER = (event) => {
+  const submitHandler = (event) => {
     event.preventDefault();
-    DISPATCH(
-      SAVE_SHIPPING_ADDRESS({
-        address: ADDRESS,
-        city: CITY,
-        postalCode: POSTAL_CODE,
-        country: COUNTRY,
+    dispatch(
+      saveShippingAddress({
+        address,
+        city,
+        postalCode,
+        country,
       })
     );
-    NAVIGATE('/payment');
+    navigate('/payment');
   };
 
   return (
     <FormContainer>
       <CheckoutSteps stepOne stepTwo />
       <h1>Shipping</h1>
-      <Form onSubmit={SUBMIT_HANDLER}>
+      <Form onSubmit={submitHandler}>
         <Form.Group controlId="address" className="my-2">
           <Form.Label>Address</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter address"
-            value={ADDRESS}
-            onChange={(event) => SET_ADDRESS(event.target.value)}
+            value={address}
+            onChange={(event) => setAddress(event.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="city" className="my-2">
@@ -52,8 +52,8 @@ const Shipping = () => {
           <Form.Control
             type="text"
             placeholder="Enter city"
-            value={CITY}
-            onChange={(event) => SET_CITY(event.target.value)}
+            value={city}
+            onChange={(event) => setCity(event.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="postalCode" className="my-2">
@@ -61,8 +61,8 @@ const Shipping = () => {
           <Form.Control
             type="text"
             placeholder="Enter postal code"
-            value={POSTAL_CODE}
-            onChange={(event) => SET_POSTAL_CODE(event.target.value)}
+            value={postalCode}
+            onChange={(event) => setPostalCode(event.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="country" className="my-2">
@@ -70,8 +70,8 @@ const Shipping = () => {
           <Form.Control
             type="text"
             placeholder="Enter country"
-            value={COUNTRY}
-            onChange={(event) => SET_COUNTRY(event.target.value)}
+            value={country}
+            onChange={(event) => setCountry(event.target.value)}
           ></Form.Control>
         </Form.Group>
         <Button type="submit" variant="primary" className="my-2">

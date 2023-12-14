@@ -5,39 +5,39 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
 import { useLoginMutation } from '../slices/usersApi';
-import { SET_CREDENTIALS } from '../slices/authentication';
+import { setCredentials } from '../slices/authentication';
 import { toast } from 'react-toastify';
 
 const Login = () => {
-  const [EMAIL, SET_EMAIL] = useState('');
-  const [PASSWORD, SET_PASSWORD] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const DISPATCH = useDispatch();
-  const NAVIGATE = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [login, { isLoading: IS_LOADING }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
-  const { userInfo: USER_INFO } = useSelector((state) => state.authentication);
+  const { userInfo } = useSelector((state) => state.authentication);
 
-  const { search: SEARCH } = useLocation();
-  const SEARCH_PARAMS = new URLSearchParams(SEARCH);
-  const REDIRECT = SEARCH_PARAMS.get('redirect') || '/';
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const redirect = searchParams.get('redirect') || '/';
 
   useEffect(() => {
-    if (USER_INFO) {
-      NAVIGATE(REDIRECT);
+    if (userInfo) {
+      navigate(redirect);
     }
-  }, [USER_INFO, REDIRECT, NAVIGATE]);
+  }, [userInfo, redirect, navigate]);
 
-  const SUBMIT_HANDLER = async (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     try {
-      const RESPONSE = await login({
-        email: EMAIL,
-        password: PASSWORD,
+      const response = await login({
+        email,
+        password,
       }).unwrap();
-      DISPATCH(SET_CREDENTIALS({ ...RESPONSE }));
-      NAVIGATE(REDIRECT);
+      dispatch(setCredentials({ ...response }));
+      navigate(redirect);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     }
@@ -46,14 +46,14 @@ const Login = () => {
   return (
     <FormContainer>
       <h1>Sign In</h1>
-      <Form onSubmit={SUBMIT_HANDLER}>
+      <Form onSubmit={submitHandler}>
         <Form.Group controlId="email" className="my-3">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
-            value={EMAIL}
-            onChange={(event) => SET_EMAIL(event.target.value)}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </Form.Group>
         <Form.Group controlId="password" className="my-3">
@@ -61,24 +61,24 @@ const Login = () => {
           <Form.Control
             type="password"
             placeholder="Enter password"
-            value={PASSWORD}
-            onChange={(event) => SET_PASSWORD(event.target.value)}
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </Form.Group>
         <Button
           type="submit"
           variant="primary"
           className="mt-2"
-          disabled={IS_LOADING}
+          disabled={isLoading}
         >
           Sign In
         </Button>
-        {IS_LOADING && <Loader />}
+        {isLoading && <Loader />}
       </Form>
       <Row className="py-3">
         <Col>
           New Customer?{' '}
-          <Link to={REDIRECT ? `/register?redirect=${REDIRECT}` : '/register'}>
+          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
             Register
           </Link>
         </Col>

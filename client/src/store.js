@@ -1,17 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { API } from './slices/api';
+import { api } from './slices/api';
 import cartReducer from './slices/cart';
 import authenticationReducer from './slices/authentication';
 
-const STORE = configureStore({
+const store = configureStore({
   reducer: {
-    [API.reducerPath]: API.reducer,
+    [api.reducerPath]: api.reducer,
     cart: cartReducer,
     authentication: authenticationReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(API.middleware),
+    getDefaultMiddleware().concat(api.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 
-export default STORE;
+export default store;

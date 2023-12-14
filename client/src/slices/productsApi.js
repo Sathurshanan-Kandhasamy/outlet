@@ -1,7 +1,7 @@
 import { PRODUCTS_URL } from '../constants';
-import { API } from './api';
+import { api } from './api';
 
-const PRODUCTS_API = API.injectEndpoints({
+const productsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => ({
@@ -18,4 +18,4 @@ const PRODUCTS_API = API.injectEndpoints({
   }),
 });
 
-export const { useGetProductsQuery, useGetSingleProductQuery } = PRODUCTS_API;
+export const { useGetProductsQuery, useGetSingleProductQuery } = productsApi;

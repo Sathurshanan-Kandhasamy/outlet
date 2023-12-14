@@ -2,31 +2,31 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 import users from './data/users.js';
 import products from './data/products.js';
-import USER from './models/user.js';
-import PRODUCT from './models/product.js';
-import ORDER from './models/order.js';
-import CONNECT_TO_DATABASE from './config/database.js';
+import User from './models/user.js';
+import Product from './models/product.js';
+import Order from './models/order.js';
+import connectToDatabase from './config/database.js';
 
 // Connects to MongoDB database.
-CONNECT_TO_DATABASE();
+connectToDatabase();
 
 // Inserts data in database.
-const IMPORT_DATA = async () => {
+const importData = async () => {
   try {
-    await ORDER.deleteMany();
-    await PRODUCT.deleteMany();
-    await USER.deleteMany();
+    await Order.deleteMany();
+    await Product.deleteMany();
+    await User.deleteMany();
 
-    const CREATED_USERS = await USER.insertMany(users);
-    const ADMIN_USER = CREATED_USERS[0]._id;
+    const createdUsers = await USER.insertMany(users);
+    const adminUser = CREATED_USERS[0]._id;
 
-    const SAMPLE_PRODUCTS = products.map((product) => {
+    const sampleProducts = products.map((product) => {
       return {
         ...product,
-        user: ADMIN_USER,
+        user: adminUser,
       };
     });
-    await PRODUCT.insertMany(SAMPLE_PRODUCTS);
+    await Product.insertMany(sampleProducts);
 
     console.log('Data imported.');
     process.exit();
@@ -37,11 +37,11 @@ const IMPORT_DATA = async () => {
 };
 
 // Deletes data in database.
-const DESTROY_DATA = async () => {
+const destroyData = async () => {
   try {
-    await ORDER.deleteMany();
-    await PRODUCT.deleteMany();
-    await USER.deleteMany();
+    await Order.deleteMany();
+    await Product.deleteMany();
+    await User.deleteMany();
 
     console.log('Data destroyed.');
     process.exit();
@@ -53,7 +53,7 @@ const DESTROY_DATA = async () => {
 
 // If argument is -d delete data else insert data in database.
 if (process.argv[2] === '-d') {
-  DESTROY_DATA();
+  destroyData();
 } else {
-  IMPORT_DATA();
+  importData();
 }

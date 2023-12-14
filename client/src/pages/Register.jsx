@@ -5,46 +5,46 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
 import { useRegisterMutation } from '../slices/usersApi';
-import { SET_CREDENTIALS } from '../slices/authentication';
+import { setCredentials } from '../slices/authentication';
 import { toast } from 'react-toastify';
 
 const Register = () => {
-  const [EMAIL, SET_EMAIL] = useState('');
-  const [NAME, SET_NAME] = useState('');
-  const [PASSWORD, SET_PASSWORD] = useState('');
-  const [CONFIRM_PASSWORD, SET_CONFIRM_PASSWORD] = useState('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const DISPATCH = useDispatch();
-  const NAVIGATE = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [register, { isLoading: IS_LOADING }] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
 
-  const { userInfo: USER_INFO } = useSelector((state) => state.authentication);
+  const { userInfo } = useSelector((state) => state.authentication);
 
-  const { search: SEARCH } = useLocation();
-  const SEARCH_PARAMS = new URLSearchParams(SEARCH);
-  const REDIRECT = SEARCH_PARAMS.get('redirect') || '/';
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const redirect = searchParams.get('redirect') || '/';
 
   useEffect(() => {
-    if (USER_INFO) {
-      NAVIGATE(REDIRECT);
+    if (userInfo) {
+      navigate(redirect);
     }
-  }, [USER_INFO, REDIRECT, NAVIGATE]);
+  }, [userInfo, redirect, navigate]);
 
-  const SUBMIT_HANDLER = async (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    if (CONFIRM_PASSWORD !== PASSWORD) {
+    if (confirmPassword !== password) {
       toast.error('Passwords do not match.');
       return;
     } else {
       try {
-        const RESPONSE = await register({
-          email: EMAIL,
-          name: NAME,
-          password: PASSWORD,
+        const response = await register({
+          email,
+          name,
+          password,
         }).unwrap();
-        DISPATCH(SET_CREDENTIALS({ ...RESPONSE }));
-        NAVIGATE(REDIRECT);
+        dispatch(setCredentials({ ...response }));
+        navigate(redirect);
       } catch (error) {
         toast.error(error?.data?.message || error.error);
       }
@@ -54,14 +54,14 @@ const Register = () => {
   return (
     <FormContainer>
       <h1>Sign Up</h1>
-      <Form onSubmit={SUBMIT_HANDLER}>
+      <Form onSubmit={submitHandler}>
         <Form.Group controlId="name" className="my-3">
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter name"
-            value={NAME}
-            onChange={(event) => SET_NAME(event.target.value)}
+            value={name}
+            onChange={(event) => setName(event.target.value)}
           />
         </Form.Group>
         <Form.Group controlId="email" className="my-3">
@@ -69,8 +69,8 @@ const Register = () => {
           <Form.Control
             type="email"
             placeholder="Enter email"
-            value={EMAIL}
-            onChange={(event) => SET_EMAIL(event.target.value)}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </Form.Group>
         <Form.Group controlId="password" className="my-3">
@@ -78,8 +78,8 @@ const Register = () => {
           <Form.Control
             type="password"
             placeholder="Enter password"
-            value={PASSWORD}
-            onChange={(event) => SET_PASSWORD(event.target.value)}
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </Form.Group>
         <Form.Group controlId="confirmPassword" className="my-3">
@@ -87,24 +87,24 @@ const Register = () => {
           <Form.Control
             type="password"
             placeholder="Confirm password"
-            value={CONFIRM_PASSWORD}
-            onChange={(event) => SET_CONFIRM_PASSWORD(event.target.value)}
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </Form.Group>
         <Button
           type="submit"
           variant="primary"
           className="mt-2"
-          disabled={IS_LOADING}
+          disabled={isLoading}
         >
           Register
         </Button>
-        {IS_LOADING && <Loader />}
+        {isLoading && <Loader />}
       </Form>
       <Row className="py-3">
         <Col>
           Already have an account?{' '}
-          <Link to={REDIRECT ? `/login?redirect=${REDIRECT}` : '/login'}>
+          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
             Login
           </Link>
         </Col>

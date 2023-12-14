@@ -11,38 +11,38 @@ import {
 } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
-import { ADD_TO_CART, REMOVE_FROM_CART } from '../slices/cart';
+import { addToCart, removeFromCart } from '../slices/cart';
 
 const Cart = () => {
-  const NAVIGATE = useNavigate();
-  const DISPATCH = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const CART = useSelector((state) => state.cart);
-  const { cartItems: CART_ITEMS } = CART;
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
 
-  const ADD_TO_CART_HANDLER = async (product, quantity) => {
-    DISPATCH(ADD_TO_CART({ ...product, qty: quantity }));
+  const addToCartHandler = async (product, quantity) => {
+    dispatch(addToCart({ ...product, qty: quantity }));
   };
 
-  const REMOVE_FROM_CART_HANDLER = async (id) => {
-    DISPATCH(REMOVE_FROM_CART(id));
+  const removeFromCartHandler = async (id) => {
+    dispatch(removeFromCart(id));
   };
 
-  const CHECKOUT_HANDLER = () => {
-    NAVIGATE('/login?redirect=/shipping');
+  const checkoutHandler = () => {
+    navigate('/login?redirect=/shipping');
   };
 
   return (
     <Row>
       <Col md={8}>
         <h1 style={{ marginBottom: '20px' }}>Shopping Cart</h1>
-        {CART_ITEMS.length === 0 ? (
+        {cartItems.length === 0 ? (
           <Message>
             Your cart is empty. <Link to="/">Go Back</Link>
           </Message>
         ) : (
           <ListGroup variant="flush">
-            {CART_ITEMS.map((item) => (
+            {cartItems.map((item) => (
               <ListGroup.Item key={item._id}>
                 <Row>
                   <Col md={2}>
@@ -62,7 +62,7 @@ const Cart = () => {
                       as="select"
                       value={item.qty}
                       onChange={(event) =>
-                        ADD_TO_CART_HANDLER(item, Number(event.target.value))
+                        addToCartHandler(item, Number(event.target.value))
                       }
                     >
                       {[...Array(item.countInStock).keys()].map((number) => (
@@ -76,7 +76,7 @@ const Cart = () => {
                     <Button
                       type="button"
                       variant="light"
-                      onClick={() => REMOVE_FROM_CART_HANDLER(item._id)}
+                      onClick={() => removeFromCartHandler(item._id)}
                     >
                       <FaTrash />
                     </Button>
@@ -93,25 +93,27 @@ const Cart = () => {
             <ListGroup.Item>
               <h2>
                 Subtotal (
-                {CART_ITEMS.reduce(
+                {cartItems.reduce(
                   (accumulator, currentItem) => accumulator + currentItem.qty,
                   0
                 )}
                 ) items
               </h2>
               $
-              {CART_ITEMS.reduce(
-                (accumulator, currentItem) =>
-                  accumulator + currentItem.qty * currentItem.price,
-                0
-              ).toFixed(2)}
+              {cartItems
+                .reduce(
+                  (accumulator, currentItem) =>
+                    accumulator + currentItem.qty * currentItem.price,
+                  0
+                )
+                .toFixed(2)}
             </ListGroup.Item>
             <ListGroup.Item>
               <Button
                 type="button"
                 className="btn-block"
-                disabled={CART_ITEMS.length === 0}
-                onClick={CHECKOUT_HANDLER}
+                disabled={cartItems.length === 0}
+                onClick={checkoutHandler}
               >
                 Proceed To Checkout
               </Button>

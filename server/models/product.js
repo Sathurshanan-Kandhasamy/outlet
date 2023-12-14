@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 // Review schema.
-const REVIEW_SCHEMA = mongoose.Schema(
+const reviewSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -27,7 +27,7 @@ const REVIEW_SCHEMA = mongoose.Schema(
 );
 
 // Product schema.
-const PRODUCT_SCHEMA = mongoose.Schema(
+const productSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -54,7 +54,7 @@ const PRODUCT_SCHEMA = mongoose.Schema(
       type: String,
       required: true,
     },
-    reviews: [REVIEW_SCHEMA],
+    reviews: [reviewSchema],
     rating: {
       type: Number,
       required: true,
@@ -81,5 +81,5 @@ const PRODUCT_SCHEMA = mongoose.Schema(
   }
 );
 
-const PRODUCT = mongoose.model('Product', PRODUCT_SCHEMA);
-export default PRODUCT;
+const Product = mongoose.model('Product', productSchema);
+export default Product;

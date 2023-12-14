@@ -1,10 +1,10 @@
-const NOT_FOUND = (request, response, next) => {
-  const ERROR = new Error(`Not Found - ${request.originalUrl}`);
+const notFound = (request, response, next) => {
+  const error = new Error(`Not Found - ${request.originalUrl}`);
   response.status(404);
-  next(ERROR);
+  next(error);
 };
 
-const ERROR_HANDLER = (error, request, response, next) => {
+const errorHandler = (error, request, response, next) => {
   let statusCode = response.statusCode === 200 ? 500 : response.statusCode;
   let message = error.message;
 
@@ -19,4 +19,4 @@ const ERROR_HANDLER = (error, request, response, next) => {
   });
 };
 
-export { NOT_FOUND, ERROR_HANDLER };
+export { notFound, errorHandler };

@@ -1,21 +1,19 @@
 import express from 'express';
-const ROUTER = express.Router();
+const router = express.Router();
 import {
-  ADD_ORDER_ITEMS,
-  GET_MY_ORDERS,
-  GET_ORDER_BY_ID,
-  UPDATE_ORDER_TO_PAID,
-  UPDATE_ORDER_TO_DELIVERED,
-  GET_ORDERS,
+  addOrderItems,
+  getMyOrders,
+  getOrderById,
+  updateOrderToPaid,
+  updateOrderToDelivered,
+  getOrders,
 } from '../controllers/order.js';
-import { PROTECT, ADMIN } from '../middleware/authentication.js';
+import { protect, admin } from '../middleware/authentication.js';
 
-ROUTER.route('/')
-  .get(PROTECT, ADMIN, GET_ORDERS)
-  .post(PROTECT, ADD_ORDER_ITEMS);
-ROUTER.route('/mine').get(PROTECT, GET_MY_ORDERS);
-ROUTER.route('/:id').get(PROTECT, ADMIN, GET_ORDER_BY_ID);
-ROUTER.route('/:id/pay').put(PROTECT, UPDATE_ORDER_TO_PAID);
-ROUTER.route('/:id/deliver').put(PROTECT, ADMIN, UPDATE_ORDER_TO_DELIVERED);
+router.route('/').get(protect, admin, getOrders).post(protect, addOrderItems);
+router.route('/mine').get(protect, getMyOrders);
+router.route('/:id').get(protect, admin, getOrderById);
+router.route('/:id/pay').put(protect, updateOrderToPaid);
+router.route('/:id/deliver').put(protect, admin, updateOrderToDelivered);
 
-export default ROUTER;
+export default router;

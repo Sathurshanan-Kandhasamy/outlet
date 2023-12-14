@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-const USER_SCHEMA = mongoose.Schema(
+const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -28,18 +28,18 @@ const USER_SCHEMA = mongoose.Schema(
 );
 
 // Compares user entered password with password stored in the database.
-USER_SCHEMA.methods.matchPassword = async function (enteredPassword) {
+userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-USER_SCHEMA.pre('save', async function (next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next();
   } else {
-    const SALT = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, SALT);
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
   }
 });
 
-const USER = mongoose.model('User', USER_SCHEMA);
-export default USER;
+const user = mongoose.model('User', userSchema);
+export default user;

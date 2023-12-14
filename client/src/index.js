@@ -7,7 +7,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import STORE from './store';
+import store from './store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/styles/index.css';
 import App from './App';
@@ -20,6 +20,7 @@ import Register from './pages/Register';
 import Shipping from './pages/Shipping';
 import PrivateRoute from './components/PrivateRoute';
 import Payment from './pages/Payment';
+import PlaceOrder from './pages/PlaceOrder';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
       <Route path="" element={<PrivateRoute />}>
         <Route path="/shipping" element={<Shipping />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/placeorder" element={<PlaceOrder />} />
       </Route>
     </Route>
   )
@@ -41,7 +43,7 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={STORE}>
+    <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>

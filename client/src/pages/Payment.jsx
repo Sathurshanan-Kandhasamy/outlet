@@ -4,34 +4,34 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Button, Col } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { SAVE_PAYMENT_METHOD } from '../slices/cart';
+import { savePaymentMethod } from '../slices/cart';
 
 const Payment = () => {
-  const [PAYMENT_METHOD, SET_PAYMENT_METHOD] = useState('PayPal');
+  const [paymentMethod, setPaymentMethod] = useState('PayPal');
 
-  const DISPATCH = useDispatch();
-  const NAVIGATE = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const CART = useSelector((state) => state.cart);
-  const { shippingAddress: SHIPPING_ADDRESS } = CART;
+  const cart = useSelector((state) => state.cart);
+  const { shippingAddress } = cart;
 
   useEffect(() => {
-    if (!SHIPPING_ADDRESS.address) {
-      NAVIGATE('/shipping');
+    if (!shippingAddress.address) {
+      navigate('/shipping');
     }
-  }, [SHIPPING_ADDRESS, NAVIGATE]);
+  }, [shippingAddress, navigate]);
 
-  const SUBMIT_HANDLER = (event) => {
+  const submitHandler = (event) => {
     event.preventDefault();
-    DISPATCH(SAVE_PAYMENT_METHOD(PAYMENT_METHOD));
-    NAVIGATE('/placeorder');
+    dispatch(savePaymentMethod(paymentMethod));
+    navigate('/placeorder');
   };
 
   return (
     <FormContainer>
       <CheckoutSteps stepOne stepTwo stepThree />
       <h1>Payment Method</h1>
-      <Form onSubmit={SUBMIT_HANDLER}>
+      <Form onSubmit={submitHandler}>
         <Form.Group>
           <Form.Label as="legend">Select Method</Form.Label>
           <Col>
@@ -43,7 +43,7 @@ const Payment = () => {
               name="paymentMethod"
               value="PayPal"
               checked
-              onChange={(event) => SET_PAYMENT_METHOD(event.target.value)}
+              onChange={(event) => setPaymentMethod(event.target.value)}
             ></Form.Check>
           </Col>
         </Form.Group>
