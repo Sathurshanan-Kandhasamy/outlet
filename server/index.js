@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { request, response } from 'express';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import connectToDatabase from './config/database.js';
@@ -27,6 +27,10 @@ app.get('/', (request, response) => {
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
+
+app.get('/api/config/paypal', (request, response) =>
+  response.send({ clientId: process.env.PAYPAL_CLIENT_ID })
+);
 
 app.use(notFound);
 app.use(errorHandler);
