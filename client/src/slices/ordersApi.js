@@ -10,7 +10,13 @@ export const ordersApi = api.injectEndpoints({
         body: { ...order },
       }),
     }),
+    getOrderDetails: builder.query({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/${orderId}`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
-export const { useCreateOrderMutation } = ordersApi;
+export const { useCreateOrderMutation, useGetOrderDetailsQuery } = ordersApi;

@@ -21,6 +21,7 @@ import Shipping from './pages/Shipping';
 import PrivateRoute from './components/PrivateRoute';
 import Payment from './pages/Payment';
 import PlaceOrder from './pages/PlaceOrder';
+import Order from './pages/Order';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
         <Route path="/shipping" element={<Shipping />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/placeorder" element={<PlaceOrder />} />
+        <Route path="/order/:id" element={<Order />} />
       </Route>
     </Route>
   )

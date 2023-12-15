@@ -41,7 +41,7 @@ export const addOrderItems = asyncHandler(async (request, response) => {
 // Route:        GET /api/orders/myorders
 // Access:       Private
 export const getMyOrders = asyncHandler(async (request, response) => {
-  const orders = await order.find({ user: request.user._id });
+  const orders = await Order.find({ user: request.user._id });
   response.status(200).json(orders);
 });
 
@@ -49,9 +49,10 @@ export const getMyOrders = asyncHandler(async (request, response) => {
 // Route:        GET /api/orders/:id
 // Access:       Private
 export const getOrderById = asyncHandler(async (request, response) => {
-  const order = await order
-    .findById(request.params.id)
-    .populate('user', 'name email');
+  const order = await Order.findById(request.params.id).populate(
+    'user',
+    'name email'
+  );
   if (order) {
     response.status(200).json(order);
   } else {
