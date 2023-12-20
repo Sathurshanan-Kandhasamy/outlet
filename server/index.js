@@ -6,7 +6,7 @@ import { notFound, errorHandler } from './middleware/error.js';
 import productRoutes from './routes/product.js';
 import userRoutes from './routes/user.js';
 import orderRoutes from './routes/order.js';
-const PORT = process.env.PORT;
+const port = process.env.PORT;
 
 // Connects to MongoDB database.
 connectToDatabase();
@@ -35,4 +35,4 @@ app.get('/api/config/paypal', (request, response) =>
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}.`));
+app.listen(port, () => console.log(`Server is running on port ${port}.`));
