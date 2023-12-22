@@ -88,7 +88,16 @@ export const updateOrderToPaid = asyncHandler(async (request, response) => {
 // Access:       Private/Admin
 export const updateOrderToDelivered = asyncHandler(
   async (request, response) => {
-    response.send('Update order to delivered.');
+    const order = await Order.findById(request.params.id);
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
+      const updatedOrder = await order.save();
+      response.status(200).json(updatedOrder);
+    } else {
+      response.status(404);
+      throw new Error('Order not found.');
+    }
   }
 );
 
