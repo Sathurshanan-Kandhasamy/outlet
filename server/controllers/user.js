@@ -110,26 +110,59 @@ export const updateUserProfile = asyncHandler(async (request, response) => {
 // Route:        GET /api/users
 // Access:       Private/Admin
 export const getUsers = asyncHandler(async (request, response) => {
-  response.send('Get all the users.');
+  const users = await User.find({});
+  response.status(200).json(users);
 });
 
 // Description:  Gets an user by id.
 // Route:        GET /api/users/:id
 // Access:       Private/Admin
 export const getUserById = asyncHandler(async (request, response) => {
-  response.send('Get user by id.');
+  const user = await User.findById(request.params.id).select('-password');
+  if (user) {
+    response.status(200).json(user);
+  } else {
+    response.status(404);
+    throw new Error('User not found.');
+  }
 });
 
 // Description:  Deletes an user.
 // Route:        DELETE /api/users/:id
 // Access:       Private/Admin
 export const deleteUser = asyncHandler(async (request, response) => {
-  response.send('Delete user.');
+  const user = await User.findById(request.params.id);
+  if (user) {
+    if (user.isAdmin) {
+      response.status(400);
+      throw new Error('Cannot delete admin user.');
+    }
+    await User.deleteOne({ _id: user._id });
+    response.status(200).json({ message: 'User deleted successfully.' });
+  } else {
+    response.status(404);
+    throw new Error('User not found');
+  }
 });
 
 // Description:  Updates an user.
 // Route:        PUT /api/users/:id
 // Access:       Private/Admin
 export const updateUser = asyncHandler(async (request, response) => {
-  response.send('Update user.');
+  const user = await User.findById(request.params.id);
+  if (user) {
+    user.name = request.body.name || user.name;
+    user.email = request.body.email || user.email;
+    user.isAdmin = Boolean(request.body.isAdmin);
+    const updatedUser = await user.save();
+    response.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+    response.status(404);
+    throw new Error('User not found');
+  }
 });
