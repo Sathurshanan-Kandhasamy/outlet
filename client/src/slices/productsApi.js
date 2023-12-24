@@ -7,6 +7,7 @@ const productsApi = api.injectEndpoints({
       query: () => ({
         url: PRODUCTS_URL,
       }),
+      providesTags: ['Products'],
       keepUnusedDataFor: 5,
     }),
     getSingleProduct: builder.query({
@@ -20,6 +21,14 @@ const productsApi = api.injectEndpoints({
         url: PRODUCTS_URL,
         method: 'POST',
       }),
+      invalidatesTags: ['Products'],
+    }),
+    updateProduct: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCTS_URL}/${data.productId}`,
+        method: 'PUT',
+        body: data,
+      }),
       invalidatesTags: ['Product'],
     }),
   }),
@@ -29,4 +38,5 @@ export const {
   useGetProductsQuery,
   useGetSingleProductQuery,
   useCreateProductMutation,
+  useUpdateProductMutation,
 } = productsApi;

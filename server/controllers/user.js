@@ -64,7 +64,7 @@ export const logoutUser = asyncHandler(async (request, response) => {
   response.status(200).json({ message: 'Logged out successfully.' });
 });
 
-// Description:  Gets a user profile.
+// Description:  Gets an user profile.
 // Route:        POST /api/users/profile
 // Access:       Private
 export const getUserProfile = asyncHandler(async (request, response) => {
@@ -82,7 +82,7 @@ export const getUserProfile = asyncHandler(async (request, response) => {
   }
 });
 
-// Description:  Updates user profile.
+// Description:  Updates an user profile.
 // Route:        PUT /api/users/profile
 // Access:       Private
 export const updateUserProfile = asyncHandler(async (request, response) => {
@@ -113,7 +113,7 @@ export const getUsers = asyncHandler(async (request, response) => {
   response.send('Get all the users.');
 });
 
-// Description:  Gets user by id.
+// Description:  Gets an user by id.
 // Route:        GET /api/users/:id
 // Access:       Private/Admin
 export const getUserById = asyncHandler(async (request, response) => {

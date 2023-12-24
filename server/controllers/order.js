@@ -1,7 +1,7 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import Order from '../models/order.js';
 
-// Description:  Create new order.
+// Description:  Create a new order.
 // Route:        POST /api/orders
 // Access:       Private
 export const addOrderItems = asyncHandler(async (request, response) => {
@@ -61,7 +61,7 @@ export const getOrderById = asyncHandler(async (request, response) => {
   }
 });
 
-// Description:  Update order to paid.
+// Description:  Update an order to paid.
 // Route:        PUT /api/orders/:id/pay
 // Access:       Private
 export const updateOrderToPaid = asyncHandler(async (request, response) => {
@@ -83,7 +83,7 @@ export const updateOrderToPaid = asyncHandler(async (request, response) => {
   }
 });
 
-// Description:  Update order to delivered.
+// Description:  Update an order to delivered.
 // Route:        PUT /api/orders/:id/delivery
 // Access:       Private/Admin
 export const updateOrderToDelivered = asyncHandler(
