@@ -15,15 +15,15 @@ const storage = multer.diskStorage({
   },
 });
 
-function fileFilter(req, file, cb) {
+function fileFilter(request, file, callback) {
   const filetypes = /jpe?g|png|webp/;
   const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = mimetypes.test(file.mimetype);
   if (extname && mimetype) {
-    cb(null, true);
+    callback(null, true);
   } else {
-    cb(new Error('Images only.'), false);
+    callback(new Error('Images only.'), false);
   }
 }
 
