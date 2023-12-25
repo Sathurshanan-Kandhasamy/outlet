@@ -5,10 +5,13 @@ import Product from '../models/product.js';
 // Route:        GET /api/products
 // Access:       Public
 export const getProducts = asyncHandler(async (request, response) => {
-  const pageSize = 4;
+  const pageSize = 8;
   const page = Number(request.query.pageNumber) || 1;
-  const count = await Product.countDocuments();
-  const products = await Product.find({})
+  const keyword = request.query.keyword
+    ? { name: { $regex: request.query.keyword, $options: 'i' } }
+    : {};
+  const count = await Product.countDocuments({ ...keyword });
+  const products = await Product.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
   response.json({ products, page, pages: Math.ceil(count / pageSize) });
