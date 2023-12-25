@@ -5,7 +5,7 @@ import Product from '../models/product.js';
 // Route:        GET /api/products
 // Access:       Public
 export const getProducts = asyncHandler(async (request, response) => {
-  const pageSize = 2;
+  const pageSize = 4;
   const page = Number(request.query.pageNumber) || 1;
   const count = await Product.countDocuments();
   const products = await Product.find({})
