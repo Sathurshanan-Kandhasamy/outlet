@@ -10,7 +10,7 @@ const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;
  * @throws {Error} If the request is not successful.
  *
  */
-async function getPayPalAccessToken() {
+const getPayPalAccessToken = async () => {
   // Authorization header requires base64 encoding.
   const auth = Buffer.from(PAYPAL_CLIENT_ID + ':' + PAYPAL_APP_SECRET).toString(
     'base64'
@@ -23,20 +23,17 @@ async function getPayPalAccessToken() {
     'Accept-Language': 'en_US',
     Authorization: `Basic ${auth}`,
   };
-
   const body = 'grant_type=client_credentials';
   const response = await fetch(url, {
     method: 'POST',
     headers,
     body,
   });
-
   if (!response.ok) throw new Error('Failed to get access token');
 
   const paypalData = await response.json();
-
   return paypalData.access_token;
-}
+};
 
 /**
  * Checks if a PayPal transaction is new by comparing the transaction ID with existing orders in the database.
@@ -47,7 +44,10 @@ async function getPayPalAccessToken() {
  * @throws {Error} If there's an error in querying the database.
  *
  */
-export async function checkIfNewTransaction(orderModel, paypalTransactionId) {
+export const checkIfNewTransaction = async (
+  orderModel,
+  paypalTransactionId
+) => {
   try {
     // Find all documents where Order.paymentResult.id is the same as the id passed paypalTransactionId.
     const orders = await orderModel.find({
@@ -56,10 +56,10 @@ export async function checkIfNewTransaction(orderModel, paypalTransactionId) {
 
     // If there are no such orders, then it's a new transaction.
     return orders.length === 0;
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
   }
-}
+};
 
 /**
  * Verifies a PayPal payment by making a request to the PayPal API.
@@ -70,7 +70,7 @@ export async function checkIfNewTransaction(orderModel, paypalTransactionId) {
  * @throws {Error} If the request is not successful.
  *
  */
-export async function verifyPayPalPayment(paypalTransactionId) {
+export const verifyPayPalPayment = async (paypalTransactionId) => {
   const accessToken = await getPayPalAccessToken();
   const paypalResponse = await fetch(
     `${PAYPAL_API_URL}/v2/checkout/orders/${paypalTransactionId}`,
@@ -88,4 +88,4 @@ export async function verifyPayPalPayment(paypalTransactionId) {
     verified: paypalData.status === 'COMPLETED',
     value: paypalData.purchase_units[0].amount.value,
   };
-}
+};
