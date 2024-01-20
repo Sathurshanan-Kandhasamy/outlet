@@ -88,8 +88,8 @@ export const getUserProfile = asyncHandler(async (request, response) => {
 export const updateUserProfile = asyncHandler(async (request, response) => {
   const user = await User.findById(request.user._id);
   if (user) {
-    user.name = request.body.name || QUERY_RESULT.name;
-    user.email = request.body.email || QUERY_RESULT.email;
+    user.name = request.body.name || user.name;
+    user.email = request.body.email || user.email;
     if (request.body.password) {
       user.password = request.body.password;
     }
