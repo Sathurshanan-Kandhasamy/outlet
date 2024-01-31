@@ -1,7 +1,7 @@
 {
   "name": "outlet",
   "version": "1.0.0",
-  "description": "eCommerce application developed with MERN stack.",
+  "description": "eCommerce application developed with the MERN stack and Redux.",
   "type": "module",
   "main": "index.js",
   "scripts": {
