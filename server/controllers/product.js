@@ -5,7 +5,7 @@ import Product from '../models/product.js';
 // Route:        GET /api/products
 // Access:       Public
 export const getProducts = asyncHandler(async (request, response) => {
-  const pageSize = 8;
+  const pageSize = process.env.PAGINATION_LIMIT;
   const page = Number(request.query.pageNumber) || 1;
   const keyword = request.query.keyword
     ? { name: { $regex: request.query.keyword, $options: 'i' } }
