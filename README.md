@@ -1,9 +1,9 @@
 This is an eCommerce application developed with the MERN stack, Mongoose ODM,
 Redux, and React Bootstrap.
 
-[View]: https://outlet.onrender.com/
-
 ## Usage
+
+View: https://outlet.onrender.com/
 
 ```
 Sample User Logins
