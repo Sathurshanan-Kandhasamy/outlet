@@ -12,6 +12,7 @@ import {
   updateUser,
 } from '../controllers/user.js';
 import { protect, admin } from '../middleware/authentication.js';
+import checkObjectId from '../middleware/checkObjectId.js';
 
 router.route('/').get(protect, admin, getUsers).post(registerUser);
 router.post('/logout', logoutUser);
@@ -22,8 +23,8 @@ router
   .put(protect, updateUserProfile);
 router
   .route('/:id')
-  .get(protect, admin, getUserById)
-  .put(protect, admin, updateUser)
-  .delete(protect, admin, deleteUser);
+  .get(protect, admin, checkObjectId, getUserById)
+  .put(protect, admin, checkObjectId, updateUser)
+  .delete(protect, admin, checkObjectId, deleteUser);
 
 export default router;
