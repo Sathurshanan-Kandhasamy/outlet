@@ -4,7 +4,7 @@ import User from '../models/user.js';
 
 // Protect middleware.
 export const protect = asyncHandler(async (request, response, next) => {
-  // Reads the jwt from the cookie.
+  // Read the jwt from the cookie.
   const token = request.cookies.jwt;
   if (token) {
     try {

@@ -10,12 +10,12 @@ import orderRoutes from './routes/order.js';
 import uploadRoutes from './routes/upload.js';
 const port = process.env.PORT;
 
-// Connects to MongoDB database.
+// Connect to MongoDB database.
 connectToDatabase();
 
 const app = express();
 
-// Implements body parser middleware.
+// Implement body parser middleware.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -35,7 +35,7 @@ const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 if (process.env.NODE_ENV === 'production') {
-  // Sets static folder.
+  // Set static folder.
   app.use(express.static(path.join(__dirname, '/client/build')));
 
   // Any route that is not api will be redirected to index.html.

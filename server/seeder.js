@@ -7,10 +7,10 @@ import Product from './models/product.js';
 import Order from './models/order.js';
 import connectToDatabase from './config/database.js';
 
-// Connects to MongoDB database.
+// Connect to MongoDB database.
 connectToDatabase();
 
-// Inserts data in database.
+// Insert data in database.
 const importData = async () => {
   try {
     await Order.deleteMany();
@@ -36,7 +36,7 @@ const importData = async () => {
   }
 };
 
-// Deletes data in database.
+// Delete data in database.
 const destroyData = async () => {
   try {
     await Order.deleteMany();

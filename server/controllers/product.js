@@ -1,7 +1,7 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import Product from '../models/product.js';
 
-// Description:  Gets all the products.
+// Description:  Get all the products.
 // Route:        GET /api/products
 // Access:       Public
 export const getProducts = asyncHandler(async (request, response) => {
@@ -17,7 +17,7 @@ export const getProducts = asyncHandler(async (request, response) => {
   response.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
-// Description:  Gets a product by id.
+// Description:  Get a product by id.
 // Route:        GET /api/products/:id
 // Access:       Public
 export const getProductById = asyncHandler(async (request, response) => {
@@ -30,7 +30,7 @@ export const getProductById = asyncHandler(async (request, response) => {
   }
 });
 
-// Description:  Gets a product.
+// Description:  Get a product.
 // Route:        POST /api/products
 // Access:       Private/Admin
 export const createProduct = asyncHandler(async (request, response) => {

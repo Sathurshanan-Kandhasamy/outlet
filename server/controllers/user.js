@@ -2,7 +2,7 @@ import asyncHandler from '../middleware/asyncHandler.js';
 import User from '../models/user.js';
 import generateToken from '../utilities/generateToken.js';
 
-// Description:  Logins user and gets token.
+// Description:  Login user and get token.
 // Route:        POST /api/users/login
 // Access:       Public
 export const loginUser = asyncHandler(async (request, response) => {
@@ -22,7 +22,7 @@ export const loginUser = asyncHandler(async (request, response) => {
   }
 });
 
-// Description:  Registers user.
+// Description:  Register user.
 // Route:        POST /api/users
 // Access:       Public
 export const registerUser = asyncHandler(async (request, response) => {
@@ -53,7 +53,7 @@ export const registerUser = asyncHandler(async (request, response) => {
   }
 });
 
-// Description:  Logouts user and clears cookie.
+// Description:  Logout user and clears cookie.
 // Route:        POST /api/users/logout
 // Access:       Private
 export const logoutUser = asyncHandler(async (request, response) => {
@@ -64,7 +64,7 @@ export const logoutUser = asyncHandler(async (request, response) => {
   response.status(200).json({ message: 'Logged out successfully.' });
 });
 
-// Description:  Gets an user profile.
+// Description:  Get an user profile.
 // Route:        POST /api/users/profile
 // Access:       Private
 export const getUserProfile = asyncHandler(async (request, response) => {
@@ -82,7 +82,7 @@ export const getUserProfile = asyncHandler(async (request, response) => {
   }
 });
 
-// Description:  Updates an user profile.
+// Description:  Update an user profile.
 // Route:        PUT /api/users/profile
 // Access:       Private
 export const updateUserProfile = asyncHandler(async (request, response) => {
@@ -106,7 +106,7 @@ export const updateUserProfile = asyncHandler(async (request, response) => {
   }
 });
 
-// Description:  Gets all the users.
+// Description:  Get all the users.
 // Route:        GET /api/users
 // Access:       Private/Admin
 export const getUsers = asyncHandler(async (request, response) => {
@@ -114,7 +114,7 @@ export const getUsers = asyncHandler(async (request, response) => {
   response.status(200).json(users);
 });
 
-// Description:  Gets an user by id.
+// Description:  Get an user by id.
 // Route:        GET /api/users/:id
 // Access:       Private/Admin
 export const getUserById = asyncHandler(async (request, response) => {
@@ -127,7 +127,7 @@ export const getUserById = asyncHandler(async (request, response) => {
   }
 });
 
-// Description:  Deletes an user.
+// Description:  Delete an user.
 // Route:        DELETE /api/users/:id
 // Access:       Private/Admin
 export const deleteUser = asyncHandler(async (request, response) => {
@@ -145,7 +145,7 @@ export const deleteUser = asyncHandler(async (request, response) => {
   }
 });
 
-// Description:  Updates an user.
+// Description:  Update an user.
 // Route:        PUT /api/users/:id
 // Access:       Private/Admin
 export const updateUser = asyncHandler(async (request, response) => {
