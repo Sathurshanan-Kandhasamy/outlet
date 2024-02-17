@@ -8,9 +8,6 @@ View: https://outlet.onrender.com/
 ```
 Sample User Logins
 
-admin@email.com (Admin)
-123456
-
 john@email.com (Customer)
 123456
 
