@@ -1,6 +1,7 @@
 import path from 'path';
 import express from 'express';
 import 'dotenv/config';
+import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import connectToDatabase from './config/database.js';
 import { notFound, errorHandler } from './middleware/error.js';
@@ -14,6 +15,9 @@ const port = process.env.PORT;
 connectToDatabase();
 
 const app = express();
+
+// Use helmet.
+app.use(helmet());
 
 // Implement body parser middleware.
 app.use(express.json());
