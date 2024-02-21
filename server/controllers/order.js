@@ -95,7 +95,7 @@ export const updateOrderToPaid = asyncHandler(async (request, response) => {
       email_address: request.body.payer.email_address,
     };
     const updatedOrder = await order.save();
-    response.json(updatedOrder);
+    response.status(200).json(updatedOrder);
   } else {
     response.status(404);
     throw new Error('Order not found.');

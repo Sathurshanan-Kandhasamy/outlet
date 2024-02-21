@@ -14,7 +14,9 @@ export const getProducts = asyncHandler(async (request, response) => {
   const products = await Product.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
-  response.json({ products, page, pages: Math.ceil(count / pageSize) });
+  response
+    .status(200)
+    .json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 // Description:  Get a product by id.
@@ -23,7 +25,7 @@ export const getProducts = asyncHandler(async (request, response) => {
 export const getProductById = asyncHandler(async (request, response) => {
   const product = await Product.findById(request.params.id);
   if (product) {
-    response.json(product);
+    response.status(200).json(product);
   } else {
     response.status(404);
     throw new Error('Resource not found.');
@@ -65,7 +67,7 @@ export const updateProduct = asyncHandler(async (request, response) => {
     product.category = category;
     product.countInStock = countInStock;
     const updatedProduct = await product.save();
-    response.json(updatedProduct);
+    response.status(200).json(updatedProduct);
   } else {
     response.status(404);
     throw new Error('Resource not found.');
