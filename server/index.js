@@ -3,7 +3,7 @@ import express from 'express';
 import 'dotenv/config';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import connectToDatabase from './config/database.js';
+import connectToDatabase from './configuration/database.js';
 import { notFound, errorHandler } from './middleware/error.js';
 import productRoutes from './routes/product.js';
 import userRoutes from './routes/user.js';

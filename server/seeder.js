@@ -5,7 +5,7 @@ import products from './data/products.js';
 import User from './models/user.js';
 import Product from './models/product.js';
 import Order from './models/order.js';
-import connectToDatabase from './config/database.js';
+import connectToDatabase from './configuration/database.js';
 
 // Connect to MongoDB database.
 connectToDatabase();
